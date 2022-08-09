@@ -1,5 +1,6 @@
 package com.fundamentals.springboot.fundamentals.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +22,7 @@ public class Post {
     private String description;
 
     @ManyToOne
+    @JsonBackReference
     private User user;
 
     public Post() {

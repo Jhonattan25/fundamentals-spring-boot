@@ -1,4 +1,4 @@
-package com.fundamentals.springboot.fundamentals.component.controller;
+package com.fundamentals.springboot.fundamentals.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package com.fundamentals.springboot.fundamentals.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class User {
     @Column(length = 50)
     private String name;
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     private String email;
 
     private LocalDate birthDate;
@@ -36,6 +37,9 @@ public class User {
     public User() {
     }
 
+    public User(Long id) {
+        this.id = id;
+    }
     public User(String name, String email, LocalDate birthDate) {
         this.name = name;
         this.email = email;
