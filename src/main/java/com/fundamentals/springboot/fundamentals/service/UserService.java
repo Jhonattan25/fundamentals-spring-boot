@@ -4,6 +4,8 @@ import com.fundamentals.springboot.fundamentals.entity.User;
 import com.fundamentals.springboot.fundamentals.repository.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,6 +16,7 @@ public class UserService {
     private final Log LOG = LogFactory.getLog(UserService.class);
     private UserRepository userRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -46,5 +49,9 @@ public class UserService {
                     user.setName(newUser.getName());
                     return userRepository.save(user);
                 }).get();
+    }
+
+    public List<User> getAll(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page, size)).getContent();
     }
 }

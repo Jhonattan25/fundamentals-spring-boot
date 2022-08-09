@@ -1,10 +1,9 @@
 package com.fundamentals.springboot.fundamentals.controller;
 
-import com.fundamentals.springboot.fundamentals.caseuse.CreateUser;
-import com.fundamentals.springboot.fundamentals.caseuse.DeleteUser;
-import com.fundamentals.springboot.fundamentals.caseuse.GetUser;
-import com.fundamentals.springboot.fundamentals.caseuse.UpdateUser;
+import com.fundamentals.springboot.fundamentals.caseuse.*;
 import com.fundamentals.springboot.fundamentals.entity.User;
+import com.fundamentals.springboot.fundamentals.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,18 @@ public class UserRestController {
     private CreateUser createUser;
     private UpdateUser updateUser;
     private DeleteUser deleteUser;
+    private GetUserPageable getUserPageable;
+    private UserRepository userRepository;
 
-    public UserRestController(GetUser getUser, CreateUser createUser, UpdateUser updateUser, DeleteUser deleteUser) {
+    @Autowired
+    public UserRestController(GetUser getUser, CreateUser createUser, UpdateUser updateUser, DeleteUser deleteUser,
+                              UserRepository userRepository, GetUserPageable getUserPageable) {
         this.getUser = getUser;
         this.createUser = createUser;
         this.updateUser = updateUser;
         this.deleteUser = deleteUser;
+        this.userRepository = userRepository;
+        this.getUserPageable = getUserPageable;
     }
 
     @GetMapping("/")
@@ -46,5 +51,10 @@ public class UserRestController {
     ResponseEntity deleteUser(@PathVariable Long id) {
         deleteUser.remove(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/pageable")
+    List<User> getUserPageable(@RequestParam int page, @RequestParam int size){
+        return getUserPageable.getAll(page, size);
     }
 }
